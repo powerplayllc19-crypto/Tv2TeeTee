@@ -1,0 +1,2297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Athena - A Progressive Web App that grows with your child from ages 2-17">
+    <meta name="theme-color" content="#6366f1">
+    <title>Athena - GrowMind Learning</title>
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
+    <!-- Manifest for PWA -->
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkF0aGVuYSIsCiAgInNob3J0X25hbWUiOiAiQXRoZW5hIiwKICAic3RhcnRfdXJsIjogIi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmZmZmZmYiLAogICJ0aGVtZV9jb2xvciI6ICIjNjM2NmYxIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLCUzQ3N2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxOTInIGhlaWdodD0nMTkyJyB2aWV3Qm94PScwIDAgMTkyIDE5Mic+JTNDcmVjdCBmaWxsPSclMjM2MzY2ZjEnIHdpZHRoPScxOTInIGhlaWdodD0nMTkyJy8+JTNDdGV4dCB4PSc1MCUyNScgeT0nNTAlMjUnIGZvbnQtZmFtaWx5PScnIGZvbnQtc2l6ZT0nODAnIGZpbGw9J3doaXRlJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBkb21pbmFudC1iYXNlbGluZT0nbWlkZGxlJz4lRjAlOUYlOEYlQjIlM0MvdGV4dD4lM0Mvc3ZnPiIsCiAgICAgICJzaXplcyI6ICIxOTJ4MTkyIiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLCUzQ3N2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc1MTInIGhlaWdodD0nNTEyJyB2aWV3Qm94PScwIDAgNTEyIDUxMic+JTNDcmVjdCBmaWxsPSclMjM2MzY2ZjEnIHdpZHRoPSc1MTInIGhlaWdodD0nNTEyJy8+JTNDdGV4dCB4PSc1MCUyNScgeT0nNTAlMjUnIGZvbnQtZmFtaWx5PScnIGZvbnQtc2l6ZT0nMjAwJyBmaWxsPSd3aGl0ZScgdGV4dC1hbmNob3I9J21pZGRsZScgZG9taW5hbnQtYmFzZWxpbmU9J21pZGRsZT4lRjAlOUYlOEYlQjIlM0MvdGV4dD4lM0Mvc3ZnPiIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIKICAgIH0KICBdCn0=">
+    
+    <style>
+        /* Custom animations and styles */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(-5deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+        @keyframes slide-in {
+            from { opacity: 0; transform: translateY(30px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-10deg); }
+            25% { transform: rotate(10deg); }
+            50% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+        @keyframes rainbow {
+            0% { background: linear-gradient(45deg, #ff6b6b, #feca57); }
+            25% { background: linear-gradient(45deg, #feca57, #48dbfb); }
+            50% { background: linear-gradient(45deg, #48dbfb, #ff9ff3); }
+            75% { background: linear-gradient(45deg, #ff9ff3, #54a0ff); }
+            100% { background: linear-gradient(45deg, #54a0ff, #ff6b6b); }
+        }
+        .float-animation { animation: float 4s ease-in-out infinite; }
+        .pulse-slow { animation: pulse-slow 2s ease-in-out infinite; }
+        .slide-in { animation: slide-in 0.5s ease-out; }
+        .bounce-animation { animation: bounce 2s ease-in-out infinite; }
+        .wiggle-animation { animation: wiggle 1s ease-in-out infinite; }
+        .rainbow-bg { animation: rainbow 10s linear infinite; }
+        .brain-muscle { transition: all 0.3s ease; }
+        .brain-muscle.growing { transform: scale(1.3) rotate(10deg); filter: brightness(1.5) hue-rotate(20deg); }
+        
+        /* Age-based themes - Playful and Bright */
+        .age-seedling { 
+            background: linear-gradient(135deg, #FFE5F1 0%, #FFE66D 50%, #A8E6CF 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .age-seedling::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: float 20s linear infinite;
+        }
+        .age-explorer { 
+            background: linear-gradient(135deg, #C7F2FF 0%, #B5EAD7 50%, #FFB7B2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .age-explorer::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 2px, transparent 2px);
+            background-size: 30px 30px;
+            animation: float 15s linear infinite reverse;
+        }
+        .age-master { 
+            background: linear-gradient(135deg, #E0C3FC 0%, #8EC5FC 50%, #97D9E1 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .age-master::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 3px, transparent 3px);
+            background-size: 40px 40px;
+            animation: float 25s linear infinite;
+        }
+        
+        /* Fun background pattern */
+        .fun-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.1;
+            z-index: 0;
+            background-image: 
+                radial-gradient(circle at 20% 80%, #ff6b6b 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, #4ecdc4 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, #ffe66d 0%, transparent 50%);
+        }
+        
+        /* Game specific styles - Playful */
+        .tea-cup { 
+            cursor: pointer; 
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+        .tea-cup:hover { 
+            transform: scale(1.2) rotate(10deg) translateY(-5px); 
+            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3));
+        }
+        .guest-avatar { 
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+        .guest-avatar.happy { 
+            transform: scale(1.3) rotate(15deg); 
+            filter: brightness(1.4) drop-shadow(0 8px 16px rgba(0,0,0,0.3));
+        }
+        .nutrient { 
+            cursor: grab; 
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+        .nutrient:active { 
+            cursor: grabbing; 
+            transform: scale(1.4) rotate(10deg);
+        }
+        .nutrient:hover {
+            transform: scale(1.2);
+            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3));
+        }
+        
+        /* Progress bars */
+        .progress-bar { transition: width 0.5s ease; }
+        
+        /* Modal animations */
+        .modal-enter { animation: slide-in 0.3s ease-out; }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.3); border-radius: 4px; }
+        
+        /* Brain connection animation */
+        @keyframes connection {
+            0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+        }
+        .brain-connection { animation: connection 1s ease-out; }
+        
+        /* Drag and drop zones */
+        .drop-zone { transition: all 0.2s; border: 2px dashed transparent; }
+        .drop-zone.drag-over { border-color: #6366f1; background-color: rgba(99, 102, 241, 0.1); transform: scale(1.05); }
+        
+        /* Particle effects */
+        .particle { position: absolute; pointer-events: none; animation: float 2s ease-out forwards; }
+
+        /* Tea Party Table - Playful */
+        .tea-table {
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #FF6B9D, #FEC860);
+            position: relative;
+            margin: 0 auto;
+            box-shadow: 0 15px 40px rgba(255,107,157,0.4), inset 0 4px 10px rgba(255,255,255,0.4);
+            border: 10px solid #FF8CC8;
+            animation: pulse-slow 3s ease-in-out infinite;
+        }
+
+        .table-leg {
+            position: absolute;
+            width: 20px;
+            height: 90px;
+            background: linear-gradient(to bottom, #FF8CC8, #FF6B9D);
+            bottom: -90px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 5px 15px rgba(255,107,157,0.3);
+        }
+
+        .chair {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(145deg, #FFD93D, #FFB6C1);
+            border: 4px solid #FF8CC8;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(255,140,200,0.3);
+        }
+
+        .chair:hover {
+            transform: scale(1.2) rotate(10deg) translateY(-5px);
+            box-shadow: 0 12px 30px rgba(255,140,200,0.5);
+        }
+
+        .chair.served {
+            background: linear-gradient(145deg, #6BCF7F, #4ECDC4);
+            border-color: #2ECC71;
+            animation: wiggle 0.6s ease;
+            box-shadow: 0 12px 30px rgba(46,204,113,0.5);
+        }
+
+        @keyframes happy {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2) rotate(10deg); }
+        }
+
+        /* Tracing Canvas - Playful */
+        .tracing-canvas {
+            border: 4px solid #FF6B9D;
+            border-radius: 20px;
+            background: linear-gradient(to bottom right, #FFF5F7, #FFE5F1);
+            cursor: crosshair;
+            touch-action: none;
+            box-shadow: 0 8px 25px rgba(255,107,157,0.2);
+            position: relative;
+        }
+
+        .tracing-canvas::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #FF6B9D, #FEC860, #4ECDC4, #FF6B9D);
+            border-radius: 20px;
+            z-index: -1;
+            animation: rainbow 5s linear infinite;
+        }
+
+        .tracing-canvas.tracing {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"><circle cx="12.5" cy="12.5" r="8" fill="%23FF6B9D" stroke="%23fff" stroke-width="2"/></svg>') 12 12, crosshair;
+        }
+
+        /* Potty Training Visuals - Playful */
+        .potty-visual {
+            width: 180px;
+            height: 220px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .toilet-seat {
+            width: 140px;
+            height: 40px;
+            background: linear-gradient(to bottom, #E8F4FD, #B8E0FF);
+            border: 4px solid #4ECDC4;
+            border-radius: 0 0 25px 25px;
+            margin: 0 auto;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(78,205,196,0.3);
+        }
+
+        .toilet-bowl {
+            width: 120px;
+            height: 90px;
+            background: linear-gradient(to bottom, #E8F4FD, #B8E0FF);
+            border: 4px solid #4ECDC4;
+            border-radius: 0 0 50% 50%;
+            margin: 0 auto;
+            border-top: none;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 5px 15px rgba(78,205,196,0.2);
+        }
+
+        .flush-water {
+            width: 100%;
+            height: 0%;
+            background: linear-gradient(to bottom, #6BCF7F, #4ECDC4);
+            position: absolute;
+            bottom: 0;
+            transition: height 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 0 20px rgba(78,205,196,0.5);
+        }
+
+        .flush-water.flushing {
+            height: 100%;
+            animation: swirl 1s ease-in-out;
+        }
+
+        @keyframes swirl {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .sink {
+            width: 140px;
+            height: 60px;
+            background: linear-gradient(to bottom, #E8F4FD, #B8E0FF);
+            border: 4px solid #4ECDC4;
+            border-radius: 10px;
+            margin: 15px auto;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(78,205,196,0.3);
+        }
+
+        .faucet {
+            width: 25px;
+            height: 35px;
+            background: linear-gradient(to bottom, #FFD93D, #FFB6C1);
+            margin: -30px auto 0;
+            position: relative;
+            border-radius: 8px 8px 0 0;
+            box-shadow: 0 3px 10px rgba(255,182,193,0.4);
+        }
+
+        .water-stream {
+            width: 8px;
+            height: 0;
+            background: linear-gradient(to bottom, #6BCF7F, #4ECDC4);
+            margin: 0 auto;
+            transition: height 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(78,205,196,0.5);
+        }
+
+        .water-stream.active {
+            height: 25px;
+            animation: drip 0.5s infinite;
+        }
+
+        @keyframes drip {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .soap-bubbles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .bubble {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 50%;
+            animation: bubble-rise 1s ease-out forwards;
+        }
+
+        @keyframes bubble-rise {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-30px) scale(1.5); opacity: 0; }
+        }
+
+        /* Avatar Emotions - Playful */
+        .avatar-face {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #FFD93D, #FFB6C1);
+            margin: 0 auto;
+            position: relative;
+            border: 4px solid #FF8CC8;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 8px 20px rgba(255,140,200,0.3);
+        }
+
+        .avatar-face.needs-potty {
+            animation: wiggle 0.3s infinite;
+            background: linear-gradient(145deg, #FF6B9D, #FEC860);
+            box-shadow: 0 10px 25px rgba(255,107,157,0.5);
+        }
+
+        .avatar-face.happy {
+            background: linear-gradient(145deg, #6BCF7F, #4ECDC4);
+            transform: scale(1.2) rotate(10deg);
+            box-shadow: 0 12px 30px rgba(78,205,196,0.5);
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        .avatar-eyes {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: black;
+            border-radius: 50%;
+            top: 25px;
+        }
+
+        .eye-left { left: 18px; }
+        .eye-right { right: 18px; }
+
+        .avatar-mouth {
+            position: absolute;
+            width: 20px;
+            height: 10px;
+            background: #8B4513;
+            border-radius: 0 0 10px 10px;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Number Tracing */
+        .number-trace {
+            font-size: 120px;
+            font-weight: bold;
+            color: #4A90E2;
+            opacity: 0.3;
+            user-select: none;
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+        .trace-canvas {
+            background: white;
+            border: 3px solid #4A90E2;
+            border-radius: 10px;
+            cursor: crosshair;
+        }
+
+        /* Shape Matching - Playful */
+        .shape-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 25px 0;
+            gap: 20px;
+        }
+
+        .shape {
+            width: 100px;
+            height: 100px;
+            border: 4px solid #FF6B9D;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(255,107,157,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shape::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s;
+            opacity: 0;
+        }
+
+        .shape:hover::before {
+            animation: shine 0.6s ease-in-out;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+        }
+
+        .shape:hover {
+            transform: scale(1.2) rotate(10deg) translateY(-5px);
+            box-shadow: 0 15px 35px rgba(255,107,157,0.4);
+            border-color: #FF8CC8;
+        }
+
+        .shape.circle { 
+            border-radius: 50%; 
+            background: linear-gradient(145deg, #FFD93D, #FFB6C1);
+        }
+        .shape.square { 
+            border-radius: 20px; 
+            background: linear-gradient(145deg, #6BCF7F, #4ECDC4);
+        }
+        .shape.triangle { 
+            background: linear-gradient(145deg, #FF6B9D, #FEC860); 
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            border: none;
+        }
+
+        .shape.matched {
+            background: #90EE90;
+            border-color: #228B22;
+            animation: pulse 0.5s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Letter Formation */
+        .letter-trace {
+            font-size: 100px;
+            font-weight: bold;
+            color: #9C27B0;
+            opacity: 0.2;
+            user-select: none;
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+        /* Pattern Matching */
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            margin: 20px auto;
+            width: fit-content;
+        }
+
+        .pattern-cell {
+            width: 60px;
+            height: 60px;
+            border: 2px solid #666;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .pattern-cell:hover {
+            transform: scale(1.05);
+            border-color: #4A90E2;
+        }
+
+        .pattern-cell.red { background: #FF6B6B; }
+        .pattern-cell.blue { background: #4ECDC4; }
+        .pattern-cell.yellow { background: #FFE66D; }
+    </style>
+</head>
+<body class="min-h-screen transition-all duration-500" id="app-body">
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('data:text/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdpbnN0YWxsJywgZnVuY3Rpb24oZXZlbnQpIHsKICBldmVudC53YWl0VW50aWwoCiAgICBjYWNoZXMub3BlbignYXRoZW5hLXYxJykudGhlbihmdW5jdGlvbihjYWNoZSkgewogICAgICByZXR1cm4gY2FjaGUuYWRkQWxsKFsnLyddKTsKICAgIH0pCiAgKTsKfSk7CgpzZWxmLmFkZEV2ZW50TGlzdGVuZXIoJ2ZldGNoJywgZnVuY3Rpb24oZXZlbnQpIHsKICBldmVudC5yZXNwb25kV2l0aCgKICAgIGNhY2hlcy5tYXRjaChldmVudC5yZXF1ZXN0KS50aGVuKGZ1bmN0aW9uKHJlc3BvbnNlKSB7CiAgICAgIHJldHVybiByZXNwb25zZSB8fCBmZXRjaChldmVudC5yZXF1ZXN0KTsKICAgIH0pCiAgKTsKfSk7')
+                .catch(err => console.log('SW registration failed'));
+        }
+    </script>
+
+    <!-- Main App Container -->
+    <div id="app" class="min-h-screen flex flex-col">
+        <!-- Navigation Header -->
+        <nav id="nav" class="bg-white/80 backdrop-blur-md shadow-lg sticky top-0 z-50 transition-all duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16 items-center">
+                    <div class="flex items-center space-x-3">
+                        <span class="text-3xl float-animation">🧠</span>
+                        <span class="font-bold text-xl text-indigo-600">Athena</span>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div id="user-stats" class="hidden flex items-center space-x-3 bg-indigo-100 px-3 py-1 rounded-full">
+                            <span class="text-sm font-semibold text-indigo-800">⭐ <span id="points">0</span></span>
+                            <span class="text-sm font-semibold text-indigo-800">🔥 <span id="streak">0</span></span>
+                        </div>
+                        <button id="install-btn" class="hidden bg-indigo-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition">
+                            Install
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main id="main-content" class="flex-grow container mx-auto px-4 py-8">
+            <!-- Dynamic content will be rendered here -->
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-white/90 backdrop-blur-md border-t border-gray-200 py-6 mt-auto">
+            <div class="container mx-auto px-4 text-center text-gray-600">
+                <p class="text-sm">Athena - GrowMind Learning PWA</p>
+                <p class="text-xs mt-2">Ages 2-17 | Growing with your child</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Audio Elements for Sound Effects -->
+    <audio id="sound-success" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZSA0PVqzn77BdGAg+ltryxnMpBSuBzvLZizcIGWi77eefTRAMUKfj8LZjHAY4ktfyy3ksBSR3x/DdkEAKFF606+uoVRQKRp/g8r5sIQUxh9Hz04IzBh5uwO/jmUgND1as5++wXRgIPpba8sZzKQUrgs7y2Ys3CBlou+3nn00QDFCn4/C2YxwGOJLX8st5LAUkd8fw3ZBACR1f" type="audio/wav">
+    </audio>
+    <audio id="sound-error" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAAD///////////////8=" type="audio/wav">
+    </audio>
+    <audio id="sound-trace" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAAD///////////////8=" type="audio/wav">
+    </audio>
+
+    <!-- Templates for different views -->
+    <template id="welcome-template">
+        <div class="max-w-4xl mx-auto text-center slide-in">
+            <div class="mb-8">
+                <div class="text-6xl mb-4 float-animation inline-block">🎓</div>
+                <h1 class="text-5xl font-bold text-gray-900 mb-4">Welcome to Athena</h1>
+                <p class="text-xl text-gray-600 mb-8">The learning app that grows with your child</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6 mb-12">
+                <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition">
+                    <div class="text-4xl mb-3">🌱</div>
+                    <h3 class="font-bold text-lg mb-2">Seedlings (2-6)</h3>
+                    <p class="text-gray-600 text-sm">Voice-guided play & micro-reviews</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition">
+                    <div class="text-4xl mb-3">🚀</div>
+                    <h3 class="font-bold text-lg mb-2">Explorers (7-11)</h3>
+                    <p class="text-gray-600 text-sm">Quests, badges & boss battles</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition">
+                    <div class="text-4xl mb-3">⚡</div>
+                    <h3 class="font-bold text-lg mb-2">Masters (12-17)</h3>
+                    <p class="text-gray-600 text-sm">Data dashboards & SRS scheduling</p>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-indigo-50 to-purple-50 p-8 rounded-2xl shadow-inner mb-8">
+                <h2 class="text-2xl font-bold mb-4">How Athena Works</h2>
+                <div class="grid md:grid-cols-2 gap-6 text-left">
+                    <div>
+                        <h3 class="font-semibold text-indigo-700 mb-2">🧠 Spaced Repetition</h3>
+                        <p class="text-gray-700 text-sm">Remembers what your child learns and schedules reviews at perfect intervals</p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-indigo-700 mb-2">🔄 Interleaving</h3>
+                        <p class="text-gray-700 text-sm">Mixes subjects to build stronger connections</p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-indigo-700 mb-2">🎯 Gap Targeting</h3>
+                        <p class="text-gray-700 text-sm">Identifies weak spots and accelerates learning</p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-indigo-700 mb-2">💪 Productive Effort</h3>
+                        <p class="text-gray-700 text-sm">Celebrates struggle as brain growth</p>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="app.showAgeSelector()" class="bg-indigo-600 text-white text-lg px-8 py-4 rounded-xl font-bold hover:bg-indigo-700 transition transform hover:scale-105 shadow-lg">
+                Start Your Journey 🚀
+            </button>
+        </div>
+    </template>
+
+    <template id="age-selector-template">
+        <div class="max-w-2xl mx-auto slide-in">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-900 mb-2">Choose Your Age Group</h2>
+                <p class="text-gray-600">Don't worry, you can always change this later!</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-4">
+                <button onclick="app.selectAge('seedling')" class="age-seedling p-6 rounded-xl hover:shadow-xl transition transform hover:-translate-y-1">
+                    <div class="text-4xl mb-3">🌱</div>
+                    <div class="font-bold text-lg">Seedlings</div>
+                    <div class="text-sm text-gray-700">Ages 2-6</div>
+                </button>
+                <button onclick="app.selectAge('explorer')" class="age-explorer p-6 rounded-xl hover:shadow-xl transition transform hover:-translate-y-1">
+                    <div class="text-4xl mb-3">🚀</div>
+                    <div class="font-bold text-lg">Explorers</div>
+                    <div class="text-sm text-gray-700">Ages 7-11</div>
+                </button>
+                <button onclick="app.selectAge('master')" class="age-master p-6 rounded-xl hover:shadow-xl transition transform hover:-translate-y-1">
+                    <div class="text-4xl mb-3">⚡</div>
+                    <div class="font-bold text-lg">Masters</div>
+                    <div class="text-sm text-gray-700">Ages 12-17</div>
+                </button>
+            </div>
+            
+            <button onclick="app.showWelcome()" class="mt-8 w-full bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
+                ← Back
+            </button>
+        </div>
+    </template>
+
+    <template id="dashboard-template">
+        <div class="max-w-6xl mx-auto">
+            <div class="mb-8 slide-in">
+                <h2 class="text-3xl font-bold text-gray-900 mb-2" id="dashboard-title">Welcome Back!</h2>
+                <p class="text-gray-600" id="dashboard-subtitle">Ready to learn something new today?</p>
+                
+                <!-- Brain Health -->
+                <div class="mt-4 bg-white p-4 rounded-xl shadow-md">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="font-semibold">Brain Connections</span>
+                        <span class="text-indigo-600 font-bold" id="brain-connections">0</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-3">
+                        <div id="brain-progress" class="progress-bar bg-indigo-600 h-3 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Modules Grid -->
+            <div id="game-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Games will be dynamically inserted here -->
+            </div>
+
+            <!-- Review Queue -->
+            <div id="review-section" class="mt-8 bg-gradient-to-r from-orange-50 to-red-50 p-6 rounded-2xl shadow-lg hidden">
+                <h3 class="text-xl font-bold mb-4">🔥 Quick Reviews Due</h3>
+                <div id="review-queue" class="space-y-2"></div>
+            </div>
+        </div>
+    </template>
+
+    <template id="tea-party-template">
+        <div class="max-w-4xl mx-auto slide-in">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Tea Party! 🫖</h2>
+                <button onclick="app.exitGame()" class="bg-gray-200 px-4 py-2 rounded-lg hover:bg-gray-300">Exit</button>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="bg-white p-3 rounded-lg shadow-md mb-4">
+                <div class="flex justify-between text-sm mb-1">
+                    <span>Party Progress</span>
+                    <span id="tea-progress-text">0/5</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div id="tea-progress" class="progress-bar bg-green-500 h-2 rounded-full" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Current Task -->
+            <div id="tea-task" class="bg-indigo-100 p-4 rounded-xl text-center mb-4">
+                <p class="text-lg font-semibold text-indigo-900" id="task-text">Loading...</p>
+            </div>
+
+            <!-- Tea Party Table Setup -->
+            <div class="relative mb-6" style="height: 400px;">
+                <!-- The Table -->
+                <div class="tea-table">
+                    <div class="table-leg" style="left: 30%;"></div>
+                    <div class="table-leg" style="right: 30%;"></div>
+                    
+                    <!-- Central Tea Pot -->
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 40px; text-align: center;">
+                        🫖
+                    </div>
+                </div>
+
+                <!-- Chairs Around the Table -->
+                <div class="chair" id="chair-teddy" style="top: 15%; left: 10%;" onclick="app.serveGuest('Teddy')">
+                    🧸
+                    <div id="teddy-order" style="position: absolute; top: -25px; width: 100px; font-size: 10px; background: white; padding: 2px; border-radius: 3px; left: -20px;"></div>
+                </div>
+                <div class="chair" id="chair-robot" style="top: 15%; right: 10%;" onclick="app.serveGuest('Robot')">
+                    🤖
+                    <div id="robot-order" style="position: absolute; top: -25px; width: 100px; font-size: 10px; background: white; padding: 2px; border-radius: 3px; right: -20px;"></div>
+                </div>
+                <div class="chair" id="chair-doll" style="bottom: 15%; left: 50%; transform: translateX(-50%);" onclick="app.serveGuest('Doll')">
+                    👸
+                    <div id="doll-order" style="position: absolute; bottom: -25px; width: 100px; font-size: 10px; background: white; padding: 2px; border-radius: 3px; left: -25px;"></div>
+                </div>
+            </div>
+
+            <!-- Items Area (Server's Tray) -->
+            <div class="bg-white p-4 rounded-xl shadow-md">
+                <h3 class="font-semibold mb-3 text-center">Server's Tray - Select Items for Current Guest</h3>
+                <div id="items-area" class="flex justify-center gap-3 flex-wrap">
+                    <!-- Items will be rendered here -->
+                </div>
+            </div>
+
+            <!-- Feedback Area -->
+            <div id="tea-feedback" class="mt-4 p-4 rounded-lg text-center hidden"></div>
+
+            <!-- Additional Games Section -->
+            <div class="mt-6 bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-xl">
+                <h3 class="text-lg font-bold mb-3">More Learning Games</h3>
+                <div class="flex gap-3 justify-center flex-wrap">
+                    <button onclick="app.startTracingGame()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                        ✏️ Tracing Game
+                    </button>
+                    <button onclick="app.startShapeMatching()" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">
+                        🔷 Shape Match
+                    </button>
+                    <button onclick="app.startPatternGame()" class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600">
+                        🎨 Patterns
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="digestive-template">
+        <div class="max-w-4xl mx-auto slide-in">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Digestive Journey 🦠</h2>
+                <button onclick="app.exitGame()" class="bg-gray-200 px-4 py-2 rounded-lg hover:bg-gray-300">Exit</button>
+            </div>
+
+            <!-- Level Selector (for testing acceleration) -->
+            <div id="digestive-levels" class="flex justify-center gap-3 mb-6">
+                <button onclick="app.startDigestiveLevel(1)" class="bg-green-500 text-white px-4 py-2 rounded-lg">Level 1</button>
+                <button onclick="app.startDigestiveLevel(2)" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Level 2</button>
+                <button onclick="app.startDigestiveLevel(3)" class="bg-purple-500 text-white px-4 py-2 rounded-lg">Level 3</button>
+            </div>
+
+            <!-- Game Area -->
+            <div id="digestive-game-area" class="bg-gradient-to-b from-blue-50 to-green-50 p-6 rounded-2xl min-h-96 relative">
+                <!-- Level 1: Simple Drop -->
+                <div id="level-1-game" class="hidden">
+                    <div class="text-center mb-6">
+                        <p class="text-lg font-semibold">Drag the fruit to the mouth!</p>
+                    </div>
+                    <div class="flex justify-around items-center">
+                        <div id="fruit-source" class="text-6xl cursor-pointer hover:scale-110 transition" draggable="true">🍎</div>
+                        <div id="mouth-drop" class="drop-zone w-24 h-24 bg-red-200 rounded-full flex items-center justify-center text-3xl border-4 border-red-400">
+                            😮
+                        </div>
+                    </div>
+                    <div id="level-1-result" class="mt-6 text-center"></div>
+                </div>
+
+                <!-- Level 2: Nutrient Catching -->
+                <div id="level-2-game" class="hidden">
+                    <div class="text-center mb-4">
+                        <p class="text-lg font-semibold">Catch the nutrients! (Click the right one)</p>
+                        <p class="text-sm text-gray-600" id="nutrient-question">Which is a protein?</p>
+                    </div>
+                    <div id="nutrient-catch-area" class="flex justify-center gap-6 flex-wrap">
+                        <!-- Nutrients will be rendered here -->
+                    </div>
+                    <div id="level-2-result" class="mt-4 text-center"></div>
+                </div>
+
+                <!-- Level 3: Enzyme Management -->
+                <div id="level-3-game" class="hidden">
+                    <div class="text-center mb-4">
+                        <p class="text-lg font-semibold">Balance the Enzymes!</p>
+                        <p class="text-sm text-gray-600">Keep all enzyme levels in the green zone</p>
+                    </div>
+                    <div id="enzyme-bars" class="space-y-3 max-w-md mx-auto">
+                        <!-- Enzyme bars will be rendered here -->
+                    </div>
+                    <div class="text-center mt-4">
+                        <button onclick="app.adjustEnzymes()" class="bg-indigo-600 text-white px-6 py-2 rounded-lg">Adjust Enzymes</button>
+                    </div>
+                    <div id="level-3-result" class="mt-4 text-center"></div>
+                </div>
+            </div>
+
+            <!-- Feedback Area -->
+            <div id="digestive-feedback" class="mt-4 p-4 rounded-lg text-center hidden"></div>
+        </div>
+    </template>
+
+    <template id="potty-training-template">
+        <div class="max-w-2xl mx-auto slide-in">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Potty Time! 🚽</h2>
+                <button onclick="app.exitGame()" class="bg-gray-200 px-4 py-2 rounded-lg hover:bg-gray-300">Exit</button>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-lg">
+                <!-- Recognition Phase - Avatar with Visual Cues -->
+                <div id="potty-recognition" class="text-center mb-6">
+                    <div class="avatar-face needs-potty mb-4" id="avatar-visual">
+                        <div class="avatar-eyes eye-left"></div>
+                        <div class="avatar-eyes eye-right"></div>
+                        <div class="avatar-mouth"></div>
+                    </div>
+                    <p class="text-xl mb-4 font-semibold">I need to go! 🚽</p>
+                    <button onclick="app.pottyRecognize()" class="bg-green-500 text-white px-6 py-3 rounded-lg text-lg">Yes, let's go to the bathroom!</button>
+                </div>
+
+                <!-- Interactive Toilet Visual -->
+                <div id="potty-toilet" class="hidden text-center mb-4">
+                    <div class="potty-visual">
+                        <div class="toilet-seat"></div>
+                        <div class="toilet-bowl">
+                            <div class="flush-water" id="flush-water"></div>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">Sit down and go</p>
+                </div>
+
+                <!-- Sink/Washing Visual -->
+                <div id="potty-sink" class="hidden text-center mb-4">
+                    <div class="sink">
+                        <div class="faucet"></div>
+                        <div class="water-stream" id="water-stream"></div>
+                    </div>
+                    <div class="soap-bubbles" id="soap-bubbles"></div>
+                    <p class="text-sm text-gray-600 mt-2">Wash hands with soap</p>
+                </div>
+
+                <!-- Routine Steps -->
+                <div id="potty-steps" class="hidden">
+                    <div class="text-center mb-6">
+                        <p class="text-lg font-semibold" id="step-text">Step 1: Go</p>
+                    </div>
+                    <div class="flex justify-center gap-4 flex-wrap" id="step-buttons">
+                        <!-- Step buttons will be rendered here -->
+                    </div>
+                </div>
+
+                <!-- Success -->
+                <div id="potty-success" class="hidden text-center">
+                    <div class="text-6xl mb-4">🎉</div>
+                    <h3 class="text-2xl font-bold mb-2">Great Job!</h3>
+                    <p class="text-gray-600 mb-4">You remembered all the steps!</p>
+                    <button onclick="app.pottyComplete()" class="bg-green-500 text-white px-6 py-3 rounded-lg">Awesome!</button>
+                </div>
+            </div>
+
+            <!-- Feedback -->
+            <div id="potty-feedback" class="mt-4 p-4 rounded-lg text-center hidden"></div>
+        </div>
+    </template>
+
+    <template id="feedback-modal-template">
+        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 modal-enter" id="feedback-modal">
+            <div class="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl">
+                <div class="text-center">
+                    <div id="feedback-icon" class="text-5xl mb-4">🧠</div>
+                    <h3 id="feedback-title" class="text-2xl font-bold mb-2">Amazing!</h3>
+                    <p id="feedback-message" class="text-gray-600 mb-6">Your brain just grew a new connection!</p>
+                    
+                    <div id="brain-muscle-container" class="mb-6 hidden">
+                        <div class="text-4xl brain-muscle" id="brain-muscle">💪</div>
+                        <p class="text-sm text-indigo-600 mt-2">Productive Effort!</p>
+                    </div>
+
+                    <div id="points-earned" class="bg-yellow-100 p-3 rounded-lg mb-6 hidden">
+                        <span class="text-2xl">⭐</span>
+                        <span class="text-xl font-bold text-yellow-800" id="points-amount">+10</span>
+                    </div>
+
+                    <button id="feedback-close" class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-indigo-700 transition w-full">
+                        Continue
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="metacognition-template">
+        <div class="max-w-2xl mx-auto slide-in">
+            <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-6 rounded-2xl shadow-lg">
+                <h2 class="text-2xl font-bold mb-4">Thinking About Thinking 🤔</h2>
+                <p class="text-gray-700 mb-6">Let's reflect on what you just learned!</p>
+                
+                <div id="reflection-questions" class="space-y-4">
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <label class="block font-semibold mb-2">What was the trickiest part?</label>
+                        <input type="text" id="reflection-tricky" class="w-full border p-2 rounded" placeholder="Type here...">
+                    </div>
+                    
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <label class="block font-semibold mb-2">What strategy helped you?</label>
+                        <input type="text" id="reflection-strategy" class="w-full border p-2 rounded" placeholder="Type here...">
+                    </div>
+
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <label class="block font-semibold mb-2">How confident do you feel now? (1-10)</label>
+                        <input type="range" id="reflection-confidence" min="1" max="10" value="5" class="w-full">
+                        <div class="text-center font-bold text-indigo-600" id="confidence-value">5</div>
+                    </div>
+                </div>
+
+                <button onclick="app.submitReflection()" class="mt-6 w-full bg-purple-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-purple-700 transition">
+                    Submit Reflection
+                </button>
+            </div>
+        </div>
+    </template>
+
+    <template id="srs-scheduler-template">
+        <div class="max-w-4xl mx-auto slide-in">
+            <div class="bg-white p-6 rounded-2xl shadow-lg mb-6">
+                <h2 class="text-2xl font-bold mb-4">Spaced Repetition Scheduler 📅</h2>
+                <p class="text-gray-600 mb-4">Schedule your review sessions. The app will remind you at the perfect time!</p>
+                
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between bg-gray-50 p-4 rounded-lg">
+                        <div>
+                            <span class="font-semibold">Math Concepts</span>
+                            <div class="text-sm text-gray-600">Next review: <span id="math-next">Tomorrow</span></div>
+                        </div>
+                        <button onclick="app.scheduleReview('math')" class="bg-blue-600 text-white px-4 py-2 rounded-lg">Schedule</button>
+                    </div>
+
+                    <div class="flex items-center justify-between bg-gray-50 p-4 rounded-lg">
+                        <div>
+                            <span class="font-semibold">Vocabulary</span>
+                            <div class="text-sm text-gray-600">Next review: <span id="vocab-next">In 3 days</span></div>
+                        </div>
+                        <button onclick="app.scheduleReview('vocab')" class="bg-purple-600 text-white px-4 py-2 rounded-lg">Schedule</button>
+                    </div>
+
+                    <div class="flex items-center justify-between bg-gray-50 p-4 rounded-lg">
+                        <div>
+                            <span class="font-semibold">Science</span>
+                            <div class="text-sm text-gray-600">Next review: <span id="science-next">In 1 week</span></div>
+                        </div>
+                        <button onclick="app.scheduleReview('science')" class="bg-green-600 text-white px-4 py-2 rounded-lg">Schedule</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-indigo-50 to-purple-50 p-6 rounded-2xl shadow-lg">
+                <h3 class="text-xl font-bold mb-3">Your Learning Curve</h3>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span>Concepts Learned</span>
+                        <span class="font-bold" id="concepts-learned">0</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span>Reviews Completed</span>
+                        <span class="font-bold" id="reviews-completed">0</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span>Accuracy</span>
+                        <span class="font-bold" id="accuracy">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="app.showDashboard()" class="mt-6 w-full bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
+                Back to Dashboard
+            </button>
+        </div>
+    </template>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Main Application Object
+        const app = {
+            // State Management
+            state: {
+                currentView: 'welcome',
+                ageGroup: null,
+                user: {
+                    name: 'Explorer',
+                    points: 0,
+                    streak: 0,
+                    brainConnections: 0,
+                    concepts: [],
+                    reviews: {}
+                },
+                currentGame: null,
+                gameProgress: {},
+                srsData: {}
+            },
+
+            // Initialize the app
+            init() {
+                this.loadState();
+                this.render();
+                this.setupPWA();
+                this.updateBrainHealth();
+            },
+
+            // Load state from localStorage
+            loadState() {
+                const saved = localStorage.getItem('athena-state');
+                if (saved) {
+                    try {
+                        const parsed = JSON.parse(saved);
+                        this.state = { ...this.state, ...parsed };
+                    } catch (e) {
+                        console.log('No valid saved state');
+                    }
+                }
+            },
+
+            // Save state to localStorage
+            saveState() {
+                localStorage.setItem('athena-state', JSON.stringify(this.state));
+            },
+
+            // Render current view
+            render() {
+                const main = document.getElementById('main-content');
+                const templateId = this.getViewTemplateId(this.state.currentView);
+                const template = document.getElementById(templateId);
+                
+                if (template) {
+                    main.innerHTML = '';
+                    main.appendChild(template.content.cloneNode(true));
+                    this.postRender();
+                }
+            },
+
+            getViewTemplateId(view) {
+                const templates = {
+                    'welcome': 'welcome-template',
+                    'age-selector': 'age-selector-template',
+                    'dashboard': 'dashboard-template',
+                    'tea-party': 'tea-party-template',
+                    'digestive': 'digestive-template',
+                    'potty': 'potty-training-template',
+                    'metacognition': 'metacognition-template',
+                    'srs-scheduler': 'srs-scheduler-template'
+                };
+                return templates[view] || 'welcome-template';
+            },
+
+            postRender() {
+                // Post-render actions for specific views
+                if (this.state.currentView === 'dashboard') {
+                    this.renderDashboard();
+                } else if (this.state.currentView === 'tea-party') {
+                    this.initTeaParty();
+                } else if (this.state.currentView === 'potty') {
+                    this.initPotty();
+                }
+            },
+
+            // Navigation methods
+            showWelcome() {
+                this.state.currentView = 'welcome';
+                this.render();
+            },
+
+            showAgeSelector() {
+                this.state.currentView = 'age-selector';
+                this.render();
+            },
+
+            selectAge(group) {
+                this.state.ageGroup = group;
+                this.applyAgeTheme(group);
+                this.showDashboard();
+                this.saveState();
+                this.showFeedback('Welcome!', `Welcome to the ${group} group!`, '🚀');
+            },
+
+            applyAgeTheme(group) {
+                const body = document.getElementById('app-body');
+                body.className = 'min-h-screen transition-all duration-500';
+                
+                if (group === 'seedling') {
+                    body.classList.add('age-seedling');
+                } else if (group === 'explorer') {
+                    body.classList.add('age-explorer');
+                } else if (group === 'master') {
+                    body.classList.add('age-master');
+                }
+            },
+
+            showDashboard() {
+                this.state.currentView = 'dashboard';
+                this.render();
+                this.updateUserStats();
+            },
+
+            renderDashboard() {
+                if (!this.state.ageGroup) {
+                    this.showAgeSelector();
+                    return;
+                }
+
+                const games = this.getAvailableGames();
+                const grid = document.getElementById('game-grid');
+                
+                if (grid) {
+                    grid.innerHTML = games.map(game => `
+                        <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 cursor-pointer" 
+                             onclick="app.startGame('${game.id}')">
+                            <div class="text-4xl mb-3">${game.icon}</div>
+                            <h3 class="font-bold text-lg mb-2">${game.name}</h3>
+                            <p class="text-gray-600 text-sm mb-3">${game.description}</p>
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-indigo-600 font-semibold">Play →</span>
+                                <span class="text-gray-500">${game.level}</span>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
+                // Check for reviews
+                this.checkForReviews();
+            },
+
+            getAvailableGames() {
+                const games = {
+                    seedling: [
+                        { id: 'tea-party', name: 'Tea Party', icon: '🫖', description: 'Math & Social Skills', level: 'Ages 2-7' },
+                        { id: 'potty', name: 'Potty Time', icon: '🚽', description: 'Life Skills Routine', level: 'Ages 2-4' }
+                    ],
+                    explorer: [
+                        { id: 'tea-party', name: 'Tea Party', icon: '🫖', description: 'Advanced Math & Logic', level: 'Ages 7-11' },
+                        { id: 'digestive', name: 'Digestive Journey', icon: '🦠', description: 'Biology Systems', level: 'Ages 5-17' },
+                        { id: 'srs-scheduler', name: 'Review Scheduler', icon: '📅', description: 'Plan Your Learning', level: 'Ages 7-11' }
+                    ],
+                    master: [
+                        { id: 'digestive', name: 'Digestive Journey', icon: '🦠', description: 'Biochemistry Mode', level: 'Ages 12-17' },
+                        { id: 'srs-scheduler', name: 'SRS Scheduler', icon: '📅', description: 'Advanced Spacing', level: 'Ages 12-17' },
+                        { id: 'metacognition', name: 'Reflection', icon: '🤔', description: 'Metacognition', level: 'Ages 12-17' }
+                    ]
+                };
+
+                return games[this.state.ageGroup] || games.seedling;
+            },
+
+            // Game: Tea Party
+            startGame(gameId) {
+                if (gameId === 'tea-party') {
+                    this.state.currentView = 'tea-party';
+                    this.render();
+                } else if (gameId === 'digestive') {
+                    this.state.currentView = 'digestive';
+                    this.render();
+                } else if (gameId === 'potty') {
+                    this.state.currentView = 'potty';
+                    this.render();
+                } else if (gameId === 'metacognition') {
+                    this.state.currentView = 'metacognition';
+                    this.render();
+                } else if (gameId === 'srs-scheduler') {
+                    this.state.currentView = 'srs-scheduler';
+                    this.render();
+                }
+            },
+
+            // Sound Effects
+            playSound(type) {
+                const soundMap = {
+                    'success': 'sound-success',
+                    'error': 'sound-error',
+                    'trace': 'sound-trace'
+                };
+                const audio = document.getElementById(soundMap[type]);
+                if (audio) {
+                    audio.currentTime = 0;
+                    audio.play().catch(e => console.log('Sound play failed:', e));
+                }
+            },
+
+            // Tracing Game
+            startTracingGame() {
+                const modalTemplate = document.getElementById('feedback-modal-template');
+                if (!modalTemplate) return;
+
+                const existingModal = document.getElementById('feedback-modal');
+                if (existingModal) existingModal.remove();
+
+                const modal = document.createElement('div');
+                modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 modal-enter';
+                modal.id = 'feedback-modal';
+                modal.innerHTML = `
+                    <div class="bg-white rounded-2xl p-6 max-w-2xl w-full shadow-2xl max-h-[90vh] overflow-y-auto">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-2xl font-bold">Tracing Game ✏️</h3>
+                            <button onclick="document.getElementById('feedback-modal').remove()" class="text-gray-500 text-2xl">×</button>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block font-semibold mb-2">Choose what to trace:</label>
+                            <select id="trace-type" class="w-full border p-2 rounded" onchange="app.updateTraceCanvas()">
+                                <option value="number">Numbers (1-9)</option>
+                                <option value="letter">Letters (A-Z)</option>
+                                <option value="shape">Shapes (Circle, Square, Triangle)</option>
+                            </select>
+                        </div>
+
+                        <div class="text-center mb-4">
+                            <div id="trace-target" class="number-trace">5</div>
+                        </div>
+
+                        <div class="text-center mb-4">
+                            <canvas id="tracing-canvas" class="tracing-canvas" width="400" height="300"></canvas>
+                        </div>
+
+                        <div class="flex gap-2 justify-center">
+                            <button onclick="app.clearTraceCanvas()" class="bg-gray-500 text-white px-4 py-2 rounded">Clear</button>
+                            <button onclick="app.checkTrace()" class="bg-green-500 text-white px-4 py-2 rounded">Check</button>
+                            <button onclick="app.nextTrace()" class="bg-blue-500 text-white px-4 py-2 rounded">Next</button>
+                        </div>
+
+                        <div id="trace-feedback" class="mt-4 text-center font-semibold"></div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+                this.initTracingCanvas();
+            },
+
+            initTracingCanvas() {
+                const canvas = document.getElementById('tracing-canvas');
+                if (!canvas) return;
+
+                const ctx = canvas.getContext('2d');
+                let isDrawing = false;
+                let lastX = 0;
+                let lastY = 0;
+
+                const startDrawing = (e) => {
+                    isDrawing = true;
+                    const rect = canvas.getBoundingClientRect();
+                    lastX = (e.clientX || e.touches[0].clientX) - rect.left;
+                    lastY = (e.clientY || e.touches[0].clientY) - rect.top;
+                    this.playSound('trace');
+                };
+
+                const draw = (e) => {
+                    if (!isDrawing) return;
+                    e.preventDefault();
+                    
+                    const rect = canvas.getBoundingClientRect();
+                    const x = (e.clientX || e.touches[0].clientX) - rect.left;
+                    const y = (e.clientY || e.touches[0].clientY) - rect.top;
+
+                    ctx.strokeStyle = '#4A90E2';
+                    ctx.lineWidth = 5;
+                    ctx.lineCap = 'round';
+                    ctx.beginPath();
+                    ctx.moveTo(lastX, lastY);
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+
+                    lastX = x;
+                    lastY = y;
+                };
+
+                const stopDrawing = () => {
+                    isDrawing = false;
+                };
+
+                canvas.addEventListener('mousedown', startDrawing);
+                canvas.addEventListener('mousemove', draw);
+                canvas.addEventListener('mouseup', stopDrawing);
+                canvas.addEventListener('mouseout', stopDrawing);
+
+                canvas.addEventListener('touchstart', startDrawing);
+                canvas.addEventListener('touchmove', draw);
+                canvas.addEventListener('touchend', stopDrawing);
+            },
+
+            updateTraceCanvas() {
+                const type = document.getElementById('trace-type').value;
+                const target = document.getElementById('trace-target');
+                
+                if (type === 'number') {
+                    const num = Math.floor(Math.random() * 9) + 1;
+                    target.textContent = num;
+                    target.className = 'number-trace';
+                } else if (type === 'letter') {
+                    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                    const letter = letters[Math.floor(Math.random() * letters.length)];
+                    target.textContent = letter;
+                    target.className = 'letter-trace';
+                } else if (type === 'shape') {
+                    const shapes = ['○', '□', '△'];
+                    target.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+                    target.className = 'number-trace';
+                    target.style.fontSize = '150px';
+                }
+                this.clearTraceCanvas();
+            },
+
+            clearTraceCanvas() {
+                const canvas = document.getElementById('tracing-canvas');
+                if (canvas) {
+                    const ctx = canvas.getContext('2d');
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    document.getElementById('trace-feedback').textContent = '';
+                }
+            },
+
+            checkTrace() {
+                const canvas = document.getElementById('tracing-canvas');
+                const ctx = canvas.getContext('2d');
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const pixels = imageData.data;
+                let drawnPixels = 0;
+                
+                for (let i = 0; i < pixels.length; i += 4) {
+                    if (pixels[i] > 0) drawnPixels++;
+                }
+
+                const feedback = document.getElementById('trace-feedback');
+                if (drawnPixels > 100) {
+                    feedback.textContent = 'Great tracing! 🎉';
+                    feedback.className = 'mt-4 text-center font-semibold text-green-600';
+                    this.playSound('success');
+                    this.addPoints(5);
+                    this.addBrainConnections(1);
+                } else {
+                    feedback.textContent = 'Try again! Draw more lines ✏️';
+                    feedback.className = 'mt-4 text-center font-semibold text-orange-600';
+                    this.playSound('error');
+                }
+            },
+
+            nextTrace() {
+                this.updateTraceCanvas();
+                this.clearTraceCanvas();
+            },
+
+            // Shape Matching Game
+            startShapeMatching() {
+                const modalTemplate = document.getElementById('feedback-modal-template');
+                if (!modalTemplate) return;
+
+                const existingModal = document.getElementById('feedback-modal');
+                if (existingModal) existingModal.remove();
+
+                const shapes = ['circle', 'square', 'triangle'];
+                const targetShape = shapes[Math.floor(Math.random() * shapes.length)];
+                const emojis = { circle: '○', square: '□', triangle: '△' };
+
+                const modal = document.createElement('div');
+                modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 modal-enter';
+                modal.id = 'feedback-modal';
+                modal.innerHTML = `
+                    <div class="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-2xl font-bold">Shape Matching 🎯</h3>
+                            <button onclick="document.getElementById('feedback-modal').remove()" class="text-gray-500 text-2xl">×</button>
+                        </div>
+                        
+                        <div class="text-center mb-6">
+                            <p class="text-xl font-semibold mb-2">Find the ${emojis[targetShape]} ${targetShape.toUpperCase()}</p>
+                            <div class="shape-container">
+                                ${shapes.map(shape => `
+                                    <div class="shape ${shape}" onclick="app.checkShape('${shape}', '${targetShape}')">
+                                        ${emojis[shape]}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div id="shape-feedback" class="text-center font-semibold"></div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            },
+
+            checkShape(selected, target) {
+                const feedback = document.getElementById('shape-feedback');
+                const shapes = document.querySelectorAll('.shape');
+                
+                if (selected === target) {
+                    feedback.textContent = 'Perfect match! 🎉';
+                    feedback.className = 'text-center font-semibold text-green-600';
+                    shapes.forEach(shape => {
+                        if (shape.classList.contains(target)) {
+                            shape.classList.add('matched');
+                        }
+                    });
+                    this.playSound('success');
+                    this.addPoints(10);
+                    this.addBrainConnections(2);
+                    setTimeout(() => {
+                        this.startShapeMatching();
+                    }, 1500);
+                } else {
+                    feedback.textContent = 'Not quite! Try again 💪';
+                    feedback.className = 'text-center font-semibold text-orange-600';
+                    this.playSound('error');
+                    this.brainGrowthAnimation();
+                }
+            },
+
+            // Pattern Game
+            startPatternGame() {
+                const modalTemplate = document.getElementById('feedback-modal-template');
+                if (!modalTemplate) return;
+
+                const existingModal = document.getElementById('feedback-modal');
+                if (existingModal) existingModal.remove();
+
+                const colors = ['red', 'blue', 'yellow'];
+                const pattern = [];
+                for (let i = 0; i < 5; i++) {
+                    pattern.push(colors[Math.floor(Math.random() * colors.length)]);
+                }
+
+                const modal = document.createElement('div');
+                modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 modal-enter';
+                modal.id = 'feedback-modal';
+                modal.innerHTML = `
+                    <div class="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-2xl font-bold">Pattern Matching 🎨</h3>
+                            <button onclick="document.getElementById('feedback-modal').remove()" class="text-gray-500 text-2xl">×</button>
+                        </div>
+                        
+                        <div class="text-center mb-4">
+                            <p class="text-lg font-semibold mb-2">Remember the pattern and repeat it:</p>
+                            <div class="pattern-grid" id="pattern-display">
+                                ${pattern.map(color => `<div class="pattern-cell ${color}"></div>`).join('')}
+                            </div>
+                        </div>
+
+                        <div class="text-center mb-4">
+                            <p class="text-sm text-gray-600 mb-2">Now click the colors in the same order:</p>
+                            <div class="flex justify-center gap-2" id="color-buttons">
+                                ${colors.map(color => `
+                                    <button class="pattern-cell ${color}" onclick="app.addPatternColor('${color}', ${JSON.stringify(pattern)})" style="width: 50px; height: 50px;"></button>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="text-center mb-2">
+                            <div id="user-pattern" class="flex justify-center gap-1 min-h-[30px]"></div>
+                        </div>
+
+                        <div id="pattern-feedback" class="text-center font-semibold"></div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+
+                // Hide pattern after 3 seconds
+                setTimeout(() => {
+                    const display = document.getElementById('pattern-display');
+                    if (display) {
+                        display.style.opacity = '0.3';
+                    }
+                }, 3000);
+            },
+
+            addPatternColor(color, correctPattern) {
+                const userPatternDiv = document.getElementById('user-pattern');
+                if (!userPatternDiv) return;
+
+                const colorBox = document.createElement('div');
+                colorBox.className = `pattern-cell ${color}`;
+                colorBox.style.width = '30px';
+                colorBox.style.height = '30px';
+                userPatternDiv.appendChild(colorBox);
+
+                const currentPattern = Array.from(userPatternDiv.children).map(box => 
+                    box.className.split(' ').find(c => ['red', 'blue', 'yellow'].includes(c))
+                );
+
+                if (currentPattern.length === correctPattern.length) {
+                    const feedback = document.getElementById('pattern-feedback');
+                    const isCorrect = JSON.stringify(currentPattern) === JSON.stringify(correctPattern);
+                    
+                    if (isCorrect) {
+                        feedback.textContent = 'Perfect pattern! 🎨';
+                        feedback.className = 'text-center font-semibold text-green-600';
+                        this.playSound('success');
+                        this.addPoints(15);
+                        this.addBrainConnections(2);
+                        setTimeout(() => {
+                            this.startPatternGame();
+                        }, 1500);
+                    } else {
+                        feedback.textContent = 'Not quite! Watch the pattern again 💪';
+                        feedback.className = 'text-center font-semibold text-orange-600';
+                        this.playSound('error');
+                        this.brainGrowthAnimation();
+                        setTimeout(() => {
+                            const display = document.getElementById('pattern-display');
+                            const userPattern = document.getElementById('user-pattern');
+                            if (display && userPattern) {
+                                display.style.opacity = '1';
+                                userPattern.innerHTML = '';
+                                feedback.textContent = '';
+                            }
+                        }, 2000);
+                    }
+                }
+            },
+
+            // Enhanced Tea Party with Table
+            serveGuest(guestName) {
+                const progress = this.state.gameProgress;
+                if (!progress || progress.currentTask >= progress.tasks.length) return;
+
+                const task = progress.tasks[progress.currentTask];
+                if (task.guest === guestName) {
+                    // Show item selection for this guest
+                    this.showGuestItems(guestName, task);
+                } else {
+                    const feedback = document.getElementById('tea-feedback');
+                    feedback.className = 'mt-4 p-4 rounded-lg text-center bg-orange-100 text-orange-800';
+                    feedback.textContent = `Not ${guestName}'s turn yet! Look at who needs what.`;
+                    feedback.classList.remove('hidden');
+                    this.playSound('error');
+                    setTimeout(() => feedback.classList.add('hidden'), 1500);
+                }
+            },
+
+            showGuestItems(guestName, task) {
+                const itemsArea = document.getElementById('items-area');
+                const colors = ['red', 'blue', 'green', 'yellow', 'purple'];
+                const items = ['🍪', '🍰', '🍎', '🧁', '🍓'];
+                
+                itemsArea.innerHTML = `
+                    <p class="w-full text-center font-semibold text-indigo-700 mb-2">
+                        Give ${task.guest} ${task.count} ${task.color} ${task.item}
+                    </p>
+                    ${items.map((item, i) => {
+                        const color = colors[i % colors.length];
+                        return `
+                            <button onclick="app.selectTeaItem('${color}', '${item}', '${guestName}', ${task.count}, '${task.item}', '${task.color}')" 
+                                    class="tea-cup text-4xl p-3 rounded-lg hover:shadow-lg ${color === task.color && item === task.item ? 'bg-indigo-100 border-2 border-indigo-500' : 'bg-gray-100'}">
+                                ${item}
+                                <div class="text-xs mt-1">${color}</div>
+                            </button>
+                        `;
+                    }).join('')}
+                `;
+            },
+
+            selectTeaItem(color, item, guestName, requiredCount, requiredItem, requiredColor) {
+                const progress = this.state.gameProgress;
+                const task = progress.tasks[progress.currentTask];
+
+                if (color === requiredColor && item === requiredItem) {
+                    // Correct!
+                    progress.score++;
+                    progress.currentTask++;
+                    
+                    // Happy animation
+                    const chair = document.getElementById(`chair-${guestName.toLowerCase()}`);
+                    if (chair) {
+                        chair.classList.add('served');
+                        setTimeout(() => chair && chair.classList.remove('served'), 1000);
+                    }
+
+                    // Update order display
+                    const orderElement = document.getElementById(`${guestName.toLowerCase()}-order`);
+                    if (orderElement) {
+                        orderElement.textContent = `${requiredCount}x ${requiredColor} ${requiredItem}`;
+                    }
+
+                    this.playSound('success');
+                    this.showFeedback('Perfect Service!', `You gave ${guestName} exactly what they wanted!`, '🫖');
+                    
+                    setTimeout(() => {
+                        this.updateTeaPartyTask();
+                    }, 1000);
+                } else {
+                    // Incorrect
+                    const feedback = document.getElementById('tea-feedback');
+                    feedback.className = 'mt-4 p-4 rounded-lg text-center bg-orange-100 text-orange-800';
+                    feedback.textContent = `Not quite! ${guestName} wanted ${requiredCount} ${requiredColor} ${requiredItem}. Try again!`;
+                    feedback.classList.remove('hidden');
+                    
+                    this.playSound('error');
+                    this.brainGrowthAnimation();
+                    
+                    setTimeout(() => {
+                        feedback.classList.add('hidden');
+                    }, 2000);
+                }
+            },
+
+            exitGame() {
+                this.showDashboard();
+            },
+
+            initTeaParty() {
+                this.state.currentGame = 'tea-party';
+                this.state.gameProgress = {
+                    tasks: [
+                        { guest: 'Teddy', color: 'red', count: 2, item: '🍪' },
+                        { guest: 'Robot', color: 'blue', count: 3, item: '🍰' },
+                        { guest: 'Doll', color: 'green', count: 1, item: '🍎' },
+                        { guest: 'Teddy', color: 'yellow', count: 2, item: '🧁' },
+                        { guest: 'Robot', color: 'purple', count: 1, item: '🍓' }
+                    ],
+                    currentTask: 0,
+                    score: 0
+                };
+
+                this.renderTeaPartyGuests();
+                this.updateTeaPartyTask();
+            },
+
+            renderTeaPartyGuests() {
+                const guests = ['Teddy', 'Robot', 'Doll'];
+                const guestEmojis = { Teddy: '🧸', Robot: '🤖', Doll: '👸' };
+                const area = document.getElementById('guests-area');
+                
+                if (area) {
+                    area.innerHTML = guests.map(g => `
+                        <div class="guest-avatar bg-white p-4 rounded-xl shadow text-center" id="guest-${g}">
+                            <div class="text-4xl mb-2">${guestEmojis[g]}</div>
+                            <div class="font-semibold">${g}</div>
+                            <div class="text-sm text-gray-600" id="${g}-order"></div>
+                        </div>
+                    `).join('');
+                }
+            },
+
+            updateTeaPartyTask() {
+                const progress = this.state.gameProgress;
+                const taskIndex = progress.currentTask;
+                
+                if (taskIndex >= progress.tasks.length) {
+                    this.teaPartyComplete();
+                    return;
+                }
+
+                const task = progress.tasks[taskIndex];
+                const taskText = document.getElementById('task-text');
+                const itemsArea = document.getElementById('items-area');
+
+                if (taskText && itemsArea) {
+                    taskText.textContent = `Give ${task.guest} ${task.count} ${task.color} items!`;
+                    
+                    // Create clickable items
+                    itemsArea.innerHTML = '';
+                    for (let i = 0; i < 8; i++) {
+                        const colors = ['red', 'blue', 'green', 'yellow', 'purple'];
+                        const items = ['🍪', '🍰', '🍎', '🧁', '🍓'];
+                        const color = colors[i % colors.length];
+                        const item = items[i % items.length];
+                        
+                        const btn = document.createElement('button');
+                        btn.className = `tea-cup text-4xl p-3 rounded-lg hover:shadow-lg ${color === task.color && item === task.item ? 'bg-indigo-100' : 'bg-gray-100'}`;
+                        btn.textContent = item;
+                        btn.onclick = () => this.teaPartySelect(color, item, task);
+                        itemsArea.appendChild(btn);
+                    }
+
+                    // Update progress bar
+                    const progressPercent = (taskIndex / progress.tasks.length) * 100;
+                    document.getElementById('tea-progress').style.width = progressPercent + '%';
+                    document.getElementById('tea-progress-text').textContent = `${taskIndex}/${progress.tasks.length}`;
+                }
+            },
+
+            teaPartySelect(color, item, task) {
+                const feedback = document.getElementById('tea-feedback');
+                
+                if (color === task.color && item === task.item) {
+                    // Correct!
+                    this.state.gameProgress.score++;
+                    this.state.gameProgress.currentTask++;
+                    
+                    // Happy animation
+                    const guestElement = document.getElementById(`guest-${task.guest}`);
+                    if (guestElement) {
+                        guestElement.classList.add('happy');
+                        setTimeout(() => guestElement.classList.remove('happy'), 500);
+                    }
+
+                    // Update order display
+                    const orderElement = document.getElementById(`${task.guest}-order`);
+                    if (orderElement) {
+                        orderElement.textContent = `${task.color} ${item}`;
+                    }
+
+                    this.showFeedback('Great Job!', `You gave ${task.guest} exactly what they wanted!`, '🫖');
+                    
+                    setTimeout(() => {
+                        this.updateTeaPartyTask();
+                    }, 1000);
+                } else {
+                    // Incorrect - productive struggle
+                    feedback.className = 'mt-4 p-4 rounded-lg text-center bg-orange-100 text-orange-800';
+                    feedback.textContent = 'Not quite! Remember: Look at the color and count carefully. Your brain is growing!';
+                    feedback.classList.remove('hidden');
+                    
+                    // Brain muscle animation
+                    this.brainGrowthAnimation();
+                    
+                    setTimeout(() => {
+                        feedback.classList.add('hidden');
+                    }, 2000);
+                }
+            },
+
+            teaPartyComplete() {
+                const points = this.state.gameProgress.score * 10;
+                this.addPoints(points);
+                this.addBrainConnections(5);
+                
+                this.showFeedback(
+                    'Party Complete!', 
+                    `You earned ${points} points! Your brain made 5 new connections! 🎉`,
+                    '🌟'
+                );
+
+                // Add to SRS
+                this.addSRSConcept('tea-party-math', 'Math');
+                
+                setTimeout(() => {
+                    this.showMetacognition();
+                }, 2000);
+            },
+
+            // Game: Digestive Journey
+            startDigestiveLevel(level) {
+                document.getElementById('level-1-game').classList.add('hidden');
+                document.getElementById('level-2-game').classList.add('hidden');
+                document.getElementById('level-3-game').classList.add('hidden');
+
+                if (level === 1) {
+                    document.getElementById('level-1-game').classList.remove('hidden');
+                    this.initDigestiveLevel1();
+                } else if (level === 2) {
+                    document.getElementById('level-2-game').classList.remove('hidden');
+                    this.initDigestiveLevel2();
+                } else if (level === 3) {
+                    document.getElementById('level-3-game').classList.remove('hidden');
+                    this.initDigestiveLevel3();
+                }
+            },
+
+            initDigestiveLevel1() {
+                const fruit = document.getElementById('fruit-source');
+                const mouth = document.getElementById('mouth-drop');
+
+                fruit.ondragstart = (e) => {
+                    e.dataTransfer.setData('text', 'fruit');
+                };
+
+                mouth.ondragover = (e) => {
+                    e.preventDefault();
+                    mouth.classList.add('drag-over');
+                };
+
+                mouth.ondragleave = () => {
+                    mouth.classList.remove('drag-over');
+                };
+
+                mouth.ondrop = (e) => {
+                    e.preventDefault();
+                    mouth.classList.remove('drag-over');
+                    const data = e.dataTransfer.getData('text');
+                    if (data === 'fruit') {
+                        mouth.textContent = '😋';
+                        document.getElementById('level-1-result').innerHTML = '<div class="text-2xl">✅</div><p>Great! The fruit is in the tummy!</p>';
+                        this.showFeedback('Delicious!', 'The digestive system started its work!', '🦠');
+                        this.addBrainConnections(2);
+                        this.addPoints(5);
+                    }
+                };
+            },
+
+            initDigestiveLevel2() {
+                const questions = [
+                    { type: 'protein', items: ['🥩', '🥚', '🧀'], distractors: ['🍎', '🥕'] },
+                    { type: 'carb', items: ['🍞', '🥔', '🍚'], distractors: ['🥦', '🥩'] },
+                    { type: 'vitamin', items: ['🍊', '🥦', '🍌'], distractors: ['🥩', '🍞'] }
+                ];
+
+                const question = questions[Math.floor(Math.random() * questions.length)];
+                const area = document.getElementById('nutrient-catch-area');
+                const questionText = document.getElementById('nutrient-question');
+
+                if (questionText) {
+                    questionText.textContent = `Which is a ${question.type}?`;
+                }
+
+                if (area) {
+                    area.innerHTML = '';
+                    const allItems = [...question.items, ...question.distractors].sort(() => Math.random() - 0.5);
+                    
+                    allItems.forEach(item => {
+                        const btn = document.createElement('button');
+                        btn.className = 'nutrient text-6xl p-4 bg-white rounded-xl shadow hover:scale-110 transition';
+                        btn.textContent = item;
+                        btn.onclick = () => {
+                            if (question.items.includes(item)) {
+                                document.getElementById('level-2-result').innerHTML = '<div class="text-2xl">✅</div><p>Correct! That\'s a ' + question.type + '!</p>';
+                                this.showFeedback('Nutrient Caught!', 'You identified the right nutrient!', '🔬');
+                                this.addBrainConnections(3);
+                                this.addPoints(8);
+                                this.addSRSConcept('nutrition-' + question.type, 'Science');
+                            } else {
+                                document.getElementById('level-2-result').innerHTML = '<div class="text-2xl">💪</div><p>Not quite! That\'s not a ' + question.type + '. Try again!</p>';
+                                this.brainGrowthAnimation();
+                            }
+                        };
+                        area.appendChild(btn);
+                    });
+                }
+            },
+
+            initDigestiveLevel3() {
+                this.state.enzymeLevels = {
+                    pepsin: 50,
+                    amylase: 50,
+                    lipase: 50
+                };
+
+                this.renderEnzymeBars();
+            },
+
+            renderEnzymeBars() {
+                const container = document.getElementById('enzyme-bars');
+                if (!container) return;
+
+                const enzymes = [
+                    { name: 'Pepsin', key: 'pepsin', color: 'bg-red-500' },
+                    { name: 'Amylase', key: 'amylase', color: 'bg-blue-500' },
+                    { name: 'Lipase', key: 'lipase', color: 'bg-green-500' }
+                ];
+
+                container.innerHTML = enzymes.map(enzyme => `
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="font-semibold">${enzyme.name}</span>
+                            <span id="${enzyme.key}-value">${this.state.enzymeLevels[enzyme.key]}</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-4">
+                            <div id="${enzyme.key}-bar" class="${enzyme.color} h-4 rounded-full transition-all duration-300" style="width: ${this.state.enzymeLevels[enzyme.key]}%"></div>
+                        </div>
+                    </div>
+                `).join('');
+            },
+
+            adjustEnzymes() {
+                // Randomize levels to simulate digestion
+                ['pepsin', 'amylase', 'lipase'].forEach(key => {
+                    const change = Math.floor(Math.random() * 20) - 10;
+                    this.state.enzymeLevels[key] = Math.max(0, Math.min(100, this.state.enzymeLevels[key] + change));
+                    
+                    const bar = document.getElementById(`${key}-bar`);
+                    const value = document.getElementById(`${key}-value`);
+                    if (bar && value) {
+                        bar.style.width = this.state.enzymeLevels[key] + '%';
+                        value.textContent = this.state.enzymeLevels[key];
+                    }
+                });
+
+                // Check if all levels are in good range (30-70)
+                const allGood = Object.values(this.state.enzymeLevels).every(level => level >= 30 && level <= 70);
+                
+                if (allGood) {
+                    document.getElementById('level-3-result').innerHTML = '<div class="text-2xl">✅</div><p>Perfect digestion! All enzymes balanced!</p>';
+                    this.showFeedback('Biochemistry Master!', 'You balanced the enzymes perfectly!', '⚗️');
+                    this.addBrainConnections(5);
+                    this.addPoints(15);
+                    this.addSRSConcept('enzymes', 'Science');
+                } else {
+                    document.getElementById('level-3-result').innerHTML = '<div class="text-2xl">💪</div><p>Keep adjusting! Find the sweet spot!</p>';
+                    this.brainGrowthAnimation();
+                }
+            },
+
+            // Game: Potty Training
+            initPotty() {
+                this.state.pottyStep = 0;
+                this.state.pottySteps = ['Go', 'Wipe', 'Flush', 'Wash'];
+            },
+
+            pottyRecognize() {
+                document.getElementById('potty-recognition').classList.add('hidden');
+                document.getElementById('potty-steps').classList.remove('hidden');
+                this.updatePottyStep();
+            },
+
+            updatePottyStep() {
+                const stepIndex = this.state.pottyStep;
+                if (stepIndex >= this.state.pottySteps.length) {
+                    this.showPottySuccess();
+                    return;
+                }
+
+                const step = this.state.pottySteps[stepIndex];
+                document.getElementById('step-text').textContent = `Step ${stepIndex + 1}: ${step}`;
+
+                const buttons = document.getElementById('step-buttons');
+                buttons.innerHTML = '';
+
+                const action = document.createElement('button');
+                action.className = 'bg-green-500 text-white text-2xl px-8 py-4 rounded-lg font-bold';
+                action.textContent = `✅ ${step}`;
+                action.onclick = () => {
+                    this.state.pottyStep++;
+                    this.showFeedback('Good Job!', `You completed: ${step}`, '👍');
+                    this.updatePottyStep();
+                };
+                buttons.appendChild(action);
+            },
+
+            showPottySuccess() {
+                document.getElementById('potty-steps').classList.add('hidden');
+                document.getElementById('potty-success').classList.remove('hidden');
+                this.addBrainConnections(3);
+                this.addPoints(10);
+                this.addSRSConcept('potty-routine', 'Life Skills');
+            },
+
+            pottyComplete() {
+                this.showFeedback('Routine Master!', 'You remembered all the steps! This will become a habit!', '🏆');
+                setTimeout(() => {
+                    this.showDashboard();
+                }, 2000);
+            },
+
+            // Metacognition & Reflection
+            showMetacognition() {
+                this.state.currentView = 'metacognition';
+                this.render();
+
+                // Setup confidence slider
+                setTimeout(() => {
+                    const slider = document.getElementById('reflection-confidence');
+                    const value = document.getElementById('confidence-value');
+                    if (slider && value) {
+                        slider.oninput = (e) => {
+                            value.textContent = e.target.value;
+                        };
+                    }
+                }, 100);
+            },
+
+            submitReflection() {
+                const tricky = document.getElementById('reflection-tricky')?.value;
+                const strategy = document.getElementById('reflection-strategy')?.value;
+                const confidence = document.getElementById('reflection-confidence')?.value;
+
+                if (tricky && strategy) {
+                    this.addBrainConnections(2);
+                    this.addPoints(5);
+                    this.showFeedback('Deep Thinker!', 'Reflection helps strengthen learning!', '🧠');
+                    setTimeout(() => {
+                        this.showDashboard();
+                    }, 1500);
+                } else {
+                    alert('Please answer all questions!');
+                }
+            },
+
+            // SRS Scheduler
+            scheduleReview(subject) {
+                const intervals = ['Tomorrow', 'In 3 days', 'In 1 week', 'In 2 weeks'];
+                const next = intervals[Math.floor(Math.random() * intervals.length)];
+                
+                const elementId = subject + '-next';
+                const element = document.getElementById(elementId);
+                if (element) {
+                    element.textContent = next;
+                    element.className = 'text-indigo-600 font-bold';
+                }
+
+                // Add to SRS data
+                if (!this.state.srsData[subject]) {
+                    this.state.srsData[subject] = [];
+                }
+                this.state.srsData[subject].push({
+                    scheduled: new Date().toISOString(),
+                    nextReview: next
+                });
+
+                this.saveState();
+                this.updateSRSStats();
+                this.showFeedback('Scheduled!', `We'll remind you ${next.toLowerCase()}`, '📅');
+
+                // Request notification permission for teens
+                if (this.state.ageGroup === 'master' && 'Notification' in window) {
+                    Notification.requestPermission().then(permission => {
+                        if (permission === 'granted') {
+                            this.showFeedback('Notifications On', 'We\'ll send you reminders!', '🔔');
+                        }
+                    });
+                }
+            },
+
+            updateSRSStats() {
+                const learned = Object.keys(this.state.srsData).length;
+                const reviews = Object.values(this.state.srsData).reduce((sum, arr) => sum + arr.length, 0);
+                
+                const learnedEl = document.getElementById('concepts-learned');
+                const reviewsEl = document.getElementById('reviews-completed');
+                const accuracyEl = document.getElementById('accuracy');
+
+                if (learnedEl) learnedEl.textContent = learned;
+                if (reviewsEl) reviewsEl.textContent = reviews;
+                if (accuracyEl) accuracyEl.textContent = reviews > 0 ? Math.round((reviews / (reviews + 2)) * 100) + '%' : '0%';
+            },
+
+            // Review Queue
+            checkForReviews() {
+                // Simple SRS: if user hasn't reviewed in 2 days, show review section
+                const lastReview = localStorage.getItem('athena-last-review');
+                const now = Date.now();
+                const twoDays = 2 * 24 * 60 * 60 * 1000;
+
+                const reviewSection = document.getElementById('review-section');
+                const reviewQueue = document.getElementById('review-queue');
+
+                if (reviewSection && reviewQueue && lastReview && (now - parseInt(lastReview) > twoDays)) {
+                    reviewSection.classList.remove('hidden');
+                    reviewQueue.innerHTML = `
+                        <div class="flex justify-between items-center bg-white p-3 rounded-lg">
+                            <span>Math: Rectangle</span>
+                            <button onclick="app.doReview('math')" class="bg-indigo-600 text-white px-3 py-1 rounded">Review</button>
+                        </div>
+                        <div class="flex justify-between items-center bg-white p-3 rounded-lg">
+                            <span>Vocabulary: Octagon</span>
+                            <button onclick="app.doReview('vocab')" class="bg-indigo-600 text-white px-3 py-1 rounded">Review</button>
+                        </div>
+                    `;
+                }
+            },
+
+            doReview(type) {
+                this.addPoints(5);
+                this.addBrainConnections(1);
+                localStorage.setItem('athena-last-review', Date.now().toString());
+                this.showFeedback('Review Complete!', 'Great job keeping memories fresh!', '🔄');
+                setTimeout(() => {
+                    const reviewSection = document.getElementById('review-section');
+                    if (reviewSection) reviewSection.classList.add('hidden');
+                }, 1500);
+            },
+
+            // Utility Methods
+            showFeedback(title, message, icon) {
+                const modalTemplate = document.getElementById('feedback-modal-template');
+                if (!modalTemplate) return;
+
+                // Remove existing modal if any
+                const existingModal = document.getElementById('feedback-modal');
+                if (existingModal) existingModal.remove();
+
+                const modal = modalTemplate.content.cloneNode(true);
+                document.body.appendChild(modal);
+
+                const modalElement = document.getElementById('feedback-modal');
+                document.getElementById('feedback-title').textContent = title;
+                document.getElementById('feedback-message').textContent = message;
+                document.getElementById('feedback-icon').textContent = icon;
+
+                const closeBtn = document.getElementById('feedback-close');
+                closeBtn.onclick = () => {
+                    if (modalElement) modalElement.remove();
+                };
+
+                // Auto close after 3 seconds
+                setTimeout(() => {
+                    if (modalElement && modalElement.parentNode) {
+                        modalElement.remove();
+                    }
+                }, 3000);
+            },
+
+            brainGrowthAnimation() {
+                const brainContainer = document.getElementById('brain-muscle-container');
+                const brainMuscle = document.getElementById('brain-muscle');
+                
+                if (brainContainer && brainMuscle) {
+                    brainContainer.classList.remove('hidden');
+                    brainMuscle.classList.add('brain-connection', 'growing');
+                    
+                    setTimeout(() => {
+                        brainMuscle.classList.remove('growing');
+                    }, 1000);
+                } else {
+                    // Fallback: create particles
+                    this.createParticles('💪');
+                }
+            },
+
+            createParticles(emoji) {
+                for (let i = 0; i < 5; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.textContent = emoji;
+                    particle.style.left = Math.random() * window.innerWidth + 'px';
+                    particle.style.top = Math.random() * window.innerHeight + 'px';
+                    particle.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                    document.body.appendChild(particle);
+                    
+                    setTimeout(() => particle.remove(), 2000);
+                }
+            },
+
+            addPoints(amount) {
+                this.state.user.points += amount;
+                this.updateUserStats();
+                this.saveState();
+            },
+
+            addBrainConnections(count) {
+                this.state.user.brainConnections += count;
+                this.updateBrainHealth();
+                this.saveState();
+            },
+
+            addSRSConcept(concept, category) {
+                if (!this.state.user.concepts.includes(concept)) {
+                    this.state.user.concepts.push(concept);
+                }
+                
+                if (!this.state.srsData[category]) {
+                    this.state.srsData[category] = [];
+                }
+                
+                this.state.srsData[category].push({
+                    concept: concept,
+                    learned: new Date().toISOString(),
+                    nextReview: this.calculateNextReview(1)
+                });
+            },
+
+            calculateNextReview(interval) {
+                const days = [1, 3, 7, 14, 30];
+                return days[Math.min(interval, days.length - 1)];
+            },
+
+            updateUserStats() {
+                const userStats = document.getElementById('user-stats');
+                const pointsEl = document.getElementById('points');
+                const streakEl = document.getElementById('streak');
+
+                if (userStats) {
+                    userStats.classList.remove('hidden');
+                }
+                if (pointsEl) {
+                    pointsEl.textContent = this.state.user.points;
+                }
+                if (streakEl) {
+                    streakEl.textContent = this.state.user.streak;
+                }
+            },
+
+            updateBrainHealth() {
+                const connections = this.state.user.brainConnections;
+                const connectionsEl = document.getElementById('brain-connections');
+                const progressEl = document.getElementById('brain-progress');
+
+                if (connectionsEl) {
+                    connectionsEl.textContent = connections;
+                }
+                if (progressEl) {
+                    const progress = Math.min(100, (connections / 50) * 100);
+                    progressEl.style.width = progress + '%';
+                }
+            },
+
+            // PWA Setup
+            setupPWA() {
+                // Install prompt
+                let deferredPrompt;
+                window.addEventListener('beforeinstallprompt', (e) => {
+                    e.preventDefault();
+                    deferredPrompt = e;
+                    const installBtn = document.getElementById('install-btn');
+                    if (installBtn) {
+                        installBtn.classList.remove('hidden');
+                        installBtn.onclick = () => {
+                            deferredPrompt.prompt();
+                            deferredPrompt.userChoice.then((choiceResult) => {
+                                if (choiceResult.outcome === 'accepted') {
+                                    this.showFeedback('Installed!', 'Athena is now on your home screen!', '📱');
+                                }
+                                deferredPrompt = null;
+                            });
+                        };
+                    }
+                });
+
+                // Check if already installed
+                if (window.matchMedia('(display-mode: standalone)').matches) {
+                    const installBtn = document.getElementById('install-btn');
+                    if (installBtn) installBtn.classList.add('hidden');
+                }
+            }
+        };
+
+        // Initialize app when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => app.init());
+        } else {
+            app.init();
+        }
+    </script>
+</body>
+</html>
